@@ -4,7 +4,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     const data = {
         data: {
-            msg: "use route /data to get all documents"
+            msg: "Welcome to kmom02-backend API"
         }
     };
 
