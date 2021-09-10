@@ -18,10 +18,6 @@ Runs the app in development mode using nodemon (https://nodemon.io/).
 
 Runs the app in production mode.
 
-### `npm run reset`
-
-Resets database to default values.
-
 ## REST API
 
 ### GET /
@@ -68,5 +64,12 @@ Response:
 
 	[]
 
+### POST /data/reset
+
+Restores database to default values.
+
+Response:
+
+	{"data":{"acknowledged":true,"insertedCount":3,"insertedIds":{"0":"613b4e8dad5e1e399ff04965","1":"613b4e8dad5e1e399ff04966","2":"613b4e8dad5e1e399ff04967"}}}
 
 

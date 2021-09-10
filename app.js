@@ -1,18 +1,23 @@
 const express = require("express");
 const cors = require('cors');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 1337;
 
 const index = require('./routes/index');
 const data = require("./routes/data");
+const { urlencoded } = require("body-parser");
 
 // Cross-Origing Resources Sharing
 app.use(cors());
 
+
 // Using POST, PUT and DELETE with parameters (body-parser)
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Logger middleware function
 if (process.env.NODE_ENV !== 'test') {
