@@ -10,10 +10,6 @@ In the project directory, you can run:
 
 Runs the app in development mode at [http://localhost:1337].<br/>
  
-### `npm run start-dev`
-
-Runs the app in development mode using nodemon (https://nodemon.io/).
-
 ### `npm run production`
 
 Runs the app in production mode.
@@ -22,43 +18,59 @@ Runs the app in production mode.
 
 ### GET /
 
+A welcome message.
+
 Response:
 
-	{"data": {"msg":"Welcome to kmom02-backend API"}}
+	{"data":{"msg":"Welcome to kmom02-backend API"}}
 
 ### GET /data
 
-Response:
-
-	[{"_id":"613a07edbebae4d608d92317","name":"Kmom01","content":"Frontend"},{"_id":"613a07edbebae4d608d92318","name":"Kmom02","content":"Backend"},{"_id":"613a07edbebae4d608d92319","name":"Kmom03","content":"Test"}]
-
-### GET /data/name
-
-ex: GET /data/Kmom01
+Reads all documents.
 
 Response:
 
-	{"_id":"613a07edbebae4d608d92317","name":"Kmom01","content":"Frontend"}
+	{"docs":[{"_id":"615c5734b42d73670df76f5c","title":"Foundation","content":"<p>It is the <strong>first book</strong> in the Foundation Series.<p>"},{"_id":"615c5734b42d73670df76f5d","title":"Foundation and Empire","content":"<p>It is the <strong>second book</strong> in the Foundation Series.<p>"},{"_id":"615c5734b42d73670df76f5e","title":"Second Foundation","content":"<p>It is the <strong>third book</strong> in the Foundation Series.<p>"}]}
 
-### POST /data/name/content
+### GET /data/title
 
-ex.  POST /data/Kmom04/Sockets
+Reads a document with given title.
 
-Response:
+Body:
 
-	{"acknowledged":true,"insertedId":"613a08b7dee6531354c0ac90"}
-
-### PUT /data/name/content
-
-ex. PUT /data/Kmom04/Auth
+	{title: "Foundation"}
 
 Response:
 
-	[]
+	{"doc":{"_id":"615c5734b42d73670df76f5c","title":"Foundation","content":"<p>It is the <strong>first book</strong> in the Foundation Series.<p>"}}
 
-### DELETE /data/name
+### POST /data
 
-ex. DELETE /data/Kmom04
+Creates a new document. 
+
+Body:
+
+	{title: "Prelude to Foundation", "content":"One of the two prequels."}
+
+Response:
+
+	{"data":{"acknowledged":true,"insertedId":"615c5836b42d73670df76f5f"}}
+
+### PUT /data/title
+
+Updates document with given title.
+
+Body:
+
+	{title: "Fundation", "content":"A science fiction novel by American writer Isaac Asimov."}
+
+Response:
+
+	{"data":{"lastErrorObject":{"n":1,"updatedExisting":true},"value":{"_id":"615c5734b42d73670df76f5c","title":"Foundation","content":"A science fiction novel by American writer Isaac Asimov."},"ok":1,"$clusterTime":{"clusterTime":{"$timestamp":"7015582250540466178"},"signature":{"hash":"y/fIN4xmO/dFaFO0iq2nyuFCWYw=","keyId":{"low":1,"high":1622390721,"unsigned":false}}},"operationTime":{"$timestamp":"7015582250540466178"}}}
+
+### DELETE /data/title
+
+Deletes document with given title.
 
 Response:
 
@@ -70,6 +82,6 @@ Restores database to default values.
 
 Response:
 
-	{"data":{"acknowledged":true,"insertedCount":3,"insertedIds":{"0":"613b4e8dad5e1e399ff04965","1":"613b4e8dad5e1e399ff04966","2":"613b4e8dad5e1e399ff04967"}}}
+	{"data":{"acknowledged":true,"insertedCount":3,"insertedIds":{"0":"615c5734b42d73670df76f5c","1":"615c5734b42d73670df76f5d","2":"615c5734b42d73670df76f5e"}}}
 
 

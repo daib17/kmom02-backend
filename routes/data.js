@@ -6,13 +6,13 @@ const data = require("../models/data.js");
 
 router.get("/", (req, res) => data.getAllDocs(req, res));
 
-router.get("/:name", (req, res) => data.getDocByName(req, res));
+router.get("/:title", (req, res) => data.getDocByTitle(req, res));
 
-router.post("/:name/:content", (req, res) => data.insertDoc(req, res));
+router.post("/", (req, res) => data.insertDoc(req, res));
 
-router.put("/:name/:content", (req, res) => data.updateDoc(req, res));
+router.put("/", (req, res) => data.updateDoc(req, res));
 
-router.delete("/:name", (req, res) => data.deleteDoc(req, res));
+router.delete("/:title", (req, res) => data.deleteDoc(req, res));
 
 router.post("/reset", async (req, res) => data.resetDB(req, res));
 

@@ -5,7 +5,6 @@ const docs = JSON.parse(
 );
 const database = require("../db/database.js");
 
-
 const data = {
   getAllDocs: async function (req, res) {
     let db;
@@ -13,12 +12,12 @@ const data = {
     try {
       db = await database.getDb();
       resultSet = await db.collection.find({}).toArray();
-      return res.json({ data: resultSet });
+      return res.json({ docs: resultSet });
     } catch (e) {
       return res.status(500).json({
         errors: {
           status: 500,
-          source: "/",
+          path: "GET /data",
           title: "Database error",
           detail: e.message
         }
@@ -28,22 +27,22 @@ const data = {
     }
   },
 
-  getDocByName: async function (req, res) {
+  getDocByTitle: async function (req, res) {
     let db;
 
     try {
       db = await database.getDb();
-      const filter = { name: req.params.name };
+      const filter = { title: req.params.title };
       const options = {
-        projection: { _id: 1, name: 1, content: 1 }
+        projection: { _id: 1, title: 1, content: 1 }
       };
       const result = await db.collection.findOne(filter, options);
-      return res.json({ data: result });
+      return res.json({ doc: result });
     } catch (e) {
       return res.status(500).json({
         errors: {
           status: 500,
-          source: "/",
+          path: "GET /data/:title",
           title: "Database error",
           detail: e.message
         }
@@ -58,14 +57,14 @@ const data = {
 
     try {
       db = await database.getDb();
-      const filter = { name: req.params.name, content: req.params.content };
+      const filter = { title: req.body.title, content: req.body.content };
       const result = await db.collection.insertOne(filter);
       return res.status(201).json({ data: result });
     } catch (e) {
       return res.status(500).json({
         errors: {
           status: 500,
-          source: "/",
+          path: "POST /data",
           title: "Database error",
           detail: e.message
         }
@@ -80,19 +79,26 @@ const data = {
 
     try {
       db = await database.getDb();
-      const filter = { name: req.params.name };
-      const options = {
+      const filter = { title: req.body.title };
+      const updateDoc = {
         $set: {
-          content: req.params.content
+          content: req.body.content
         }
       };
-      const result = await db.collection.updateOne(filter, options);
-      return res.status(204).json({ data: result });
+      const options = { returnDocument: "after" };
+      let result = await db.collection.findOneAndUpdate(
+        filter,
+        updateDoc,
+        options
+      );
+      if (result) {
+        return res.status(201).json({ data: result });
+      }
     } catch (e) {
       return res.status(500).json({
         errors: {
           status: 500,
-          source: "/",
+          path: "PUT /data/:title",
           title: "Database error",
           detail: e.message
         }
@@ -107,14 +113,14 @@ const data = {
 
     try {
       db = await database.getDb();
-      const filter = { name: req.params.name };
+      const filter = { title: req.params.title };
       const result = await db.collection.deleteOne(filter);
       return res.status(204).json({ data: result });
     } catch (e) {
       return res.status(500).json({
         errors: {
           status: 500,
-          source: "/",
+          path: "DELETE /data/:title",
           title: "Database error",
           detail: e.message
         }
@@ -135,7 +141,7 @@ const data = {
       return res.status(500).json({
         errors: {
           status: 500,
-          source: "/",
+          path: "POST /data/reset",
           title: "Database error",
           detail: e.message
         }
