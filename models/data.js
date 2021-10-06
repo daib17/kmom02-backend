@@ -85,7 +85,8 @@ const data = {
           content: req.body.content
         }
       };
-      const options = { returnDocument: "after" };
+      // upsert: true - creates doc if it does not exist
+      const options = { returnDocument: "after", upsert: true };
       let result = await db.collection.findOneAndUpdate(
         filter,
         updateDoc,
